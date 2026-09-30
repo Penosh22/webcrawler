@@ -1,0 +1,71 @@
+[
+  {
+    "category": "Straightforward",
+    "question": "What is the difference between primary and secondary markets?",
+    "ground_truth": "Primary market is where companies issue new shares to the public via an IPO. Secondary market is where existing shares are traded between investors on stock exchanges.",
+    "chat_history": []
+  },
+  {
+    "category": "Straightforward",
+    "question": "Who regulates the stock market in India?",
+    "ground_truth": "SEBI (Securities and Exchange Board of India) regulates the securities market in India to protect investor interests and promote market development.",
+    "chat_history": []
+  },
+  {
+    "category": "Straightforward",
+    "question": "What is a contract note and why is it important?",
+    "ground_truth": "A contract note is a legally binding confirmation sent by the stockbroker detailing all trades executed on behalf of the client during the trading day.",
+    "chat_history": []
+  },
+  {
+    "category": "Paraphrased",
+    "question": "Can you explain how a company goes public and issues its first shares to the public?",
+    "ground_truth": "A company goes public through an Initial Public Offering (IPO), where it offers shares to retail and institutional investors in the primary market.",
+    "chat_history": []
+  },
+  {
+    "category": "Paraphrased",
+    "question": "What purpose does the 9:00 AM to 9:15 AM trading window serve?",
+    "ground_truth": "The pre-market session runs between 9:00 AM and 9:15 AM to determine the opening price of securities and minimize volatility before normal trading begins.",
+    "chat_history": []
+  },
+  {
+    "category": "Multi-Page",
+    "question": "What are the roles of depositories like NSDL and CDSL in the lifecycle of a stock trade?",
+    "ground_truth": "Depositories like NSDL and CDSL hold financial securities in electronic dematerialized (demat) format and facilitate electronic transfer and settlement when shares are bought or sold.",
+    "chat_history": []
+  },
+  {
+    "category": "Multi-Page",
+    "question": "How do market orders differ from limit orders in execution and price certainty?",
+    "ground_truth": "Market orders prioritize execution speed at the best prevailing market price without price guarantee, whereas limit orders guarantee execution only at or better than a specified price.",
+    "chat_history": []
+  },
+  {
+    "category": "Maths",
+    "question": "According to general trading principles, if I buy 250 shares at 120 and sell them at 145, what is my total profit?",
+    "ground_truth": "The profit is 6,250, calculated as 250 shares multiplied by the 25 point price difference (145 - 120).",
+    "chat_history": []
+  },
+  {
+    "category": "Maths",
+    "question": "If a trader purchases 100 shares of a stock at 850 and exits the position at 790, what is the net financial outcome?",
+    "ground_truth": "The trader incurs a net loss of 6,000, calculated as 100 shares multiplied by 60 points loss per share (790 - 850).",
+    "chat_history": []
+  },
+  {
+    "category": "Linked Question",
+    "question": "How do I apply for one?",
+    "ground_truth": "Investors can apply for an IPO online through internet banking via the ASBA (Application Supported by Blocked Amount) facility or submit an offline application form through a certified bank branch.",
+    "chat_history": [
+      {
+        "role": "user",
+        "content": "What is an IPO?"
+      },
+      {
+        "role": "assistant",
+        "content": "An IPO (Initial Public Offering) is when an unlisted company offers shares to the public for the first time [1]."
+      }
+    ]
+  }
+]

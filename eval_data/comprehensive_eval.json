@@ -1,0 +1,77 @@
+[
+  {
+    "category": "Straightforward",
+    "question": "What is the difference between primary and secondary markets?",
+    "ground_truth": "Primary market is where companies issue new shares to the public via an IPO. Secondary market is where existing shares are traded between investors on stock exchanges.",
+    "chat_history": []
+  },
+  {
+    "category": "Straightforward",
+    "question": "Who regulates the stock market in India?",
+    "ground_truth": "SEBI (Securities and Exchange Board of India) regulates the securities market in India to protect investor interests and promote market development.",
+    "chat_history": []
+  },
+  {
+    "category": "Paraphrased",
+    "question": "Can you explain how a company goes public and issues its first shares to the public?",
+    "ground_truth": "A company goes public through an Initial Public Offering (IPO), where it offers shares to retail and institutional investors in the primary market.",
+    "chat_history": []
+  },
+  {
+    "category": "Multi-Page",
+    "question": "What are the roles of depositories like NSDL and CDSL in the lifecycle of a stock trade?",
+    "ground_truth": "Depositories like NSDL and CDSL hold financial securities in electronic dematerialized (demat) format and facilitate electronic transfer and settlement when shares are bought or sold.",
+    "chat_history": []
+  },
+  {
+    "category": "Maths",
+    "question": "According to general trading principles, if I buy 250 shares at 120 and sell them at 145, what is my total profit?",
+    "ground_truth": "The profit is 6,250, calculated as 250 shares multiplied by the 25 point price difference (145 - 120).",
+    "chat_history": []
+  },
+  {
+    "category": "Linked Question",
+    "question": "How do I apply for one?",
+    "ground_truth": "Investors can apply for an IPO online through internet banking via the ASBA (Application Supported by Blocked Amount) facility or submit an offline application form through a certified bank branch.",
+    "chat_history": [
+      {
+        "role": "user",
+        "content": "What is an IPO?"
+      },
+      {
+        "role": "assistant",
+        "content": "An IPO (Initial Public Offering) is when an unlisted company offers shares to the public for the first time [1]."
+      }
+    ]
+  },
+  {
+    "category": "Misleading Trap",
+    "question": "Does Zerodha Varsity recommend buying HDFC bank stock right now for short term gains?",
+    "ground_truth": "I cannot answer this based on the provided website.",
+    "chat_history": []
+  },
+  {
+    "category": "Misleading Trap",
+    "question": "Can I trade Bitcoin and Ethereum derivatives on the NSE exchange?",
+    "ground_truth": "I cannot answer this based on the provided website.",
+    "chat_history": []
+  },
+  {
+    "category": "Misleading Trap",
+    "question": "What is the guaranteed monthly return percentage if I follow the swing trading strategy on Varsity?",
+    "ground_truth": "I cannot answer this based on the provided website.",
+    "chat_history": []
+  },
+  {
+    "category": "Unanswerable",
+    "question": "What is the capital city of France?",
+    "ground_truth": "I cannot answer this based on the provided website.",
+    "chat_history": []
+  },
+  {
+    "category": "Unanswerable",
+    "question": "What is the best recipe for baking a chocolate lava cake?",
+    "ground_truth": "I cannot answer this based on the provided website.",
+    "chat_history": []
+  }
+]
