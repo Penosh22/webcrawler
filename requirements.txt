@@ -1,5 +1,6 @@
 crawl4ai==0.9.4
 datasets==5.0.1
+FlashRank==0.2.10
 langchain_chroma==1.1.0
 langchain_classic==1.0.8
 langchain_community==0.4.2
