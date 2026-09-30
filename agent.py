@@ -17,6 +17,7 @@ if not api_key:
     raise ValueError("GEMINI_API_KEY is missing from .env")
 
 # 2. Imports
+from flashrank import Ranker
 from langchain_core.documents import Document
 from langchain_core.messages import SystemMessage, HumanMessage, ToolMessage
 from langchain_core.tools import tool
