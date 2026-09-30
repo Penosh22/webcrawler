@@ -12,9 +12,8 @@ logging.getLogger("google_genai.models").setLevel(logging.ERROR)
 
 # 1. Load Environment Variables
 load_dotenv()
-api_key = os.getenv("GEMINI_API_KEY")
-if not api_key:
-    raise ValueError("GEMINI_API_KEY is missing from .env")
+api_key = os.getenv("GEMINI_API_KEY","")
+
 
 # 2. Imports
 from flashrank import Ranker
@@ -105,7 +104,6 @@ def setup_hybrid_retriever():
     ensemble = EnsembleRetriever(retrievers=[bm25_retriever, vector_retriever], weights=[0.5, 0.5])
     return ContextualCompressionRetriever(base_compressor=FlashrankRerank(top_n=7), base_retriever=ensemble)
 
-hybrid_retriever = setup_hybrid_retriever()
 
 # --- 4. Tool Definition ---
 @tool
@@ -154,7 +152,7 @@ def rewrite_query_node(state: GraphState):
     return {"standalone_question": response.content.strip(), "input_tokens": in_t, "output_tokens": out_t}
 
 def retrieve_node(state: GraphState):
-    docs = execute_with_retry(hybrid_retriever.invoke, state["standalone_question"])
+    docs = execute_with_retry(setup_hybrid_retriever().invoke, state["standalone_question"])
     return {"documents": docs}
 
 def generate_node(state: GraphState):
