@@ -1,4 +1,3 @@
-```markdown
 # 📈 Zerodha Varsity AI Assistant
 
 An agentic, multi-turn Retrieval-Augmented Generation (RAG) assistant built to provide grounded, citation-backed answers to stock trading, investing, derivatives, and financial regulatory questions using educational content from [Zerodha Varsity](https://zerodha.com/varsity/).
