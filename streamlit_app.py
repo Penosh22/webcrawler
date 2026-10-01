@@ -44,9 +44,9 @@ with st.sidebar:
     st.subheader("💡 Sample Questions")
     
     sample_questions = [
-        "What is an iron condor and its max loss?",
+        "Why do companies go public?",
         "If I buy 250 shares at 120 and sell at 145, what is my profit?",
-        "Explain what a PE ratio is.",
+        "What happens after the IPO?",
         "What is the current stock price of Reliance?" # Tests the grounding refusal
     ]
     
