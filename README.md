@@ -1,5 +1,3 @@
-Here is the complete, comprehensive `README.md` file incorporating all your requirements, including the updated repository URL, the architecture diagram, and the detailed cost analysis section.
-
 ```markdown
 # 📈 Zerodha Varsity AI Assistant
 
@@ -9,27 +7,29 @@ Powered by **LangGraph**, **Google Gemini 2.5 Flash**, **ChromaDB**, **BM25**, a
 
 ---
 
-## 🏛️ System Architecture
+## 🏛️️ System Architecture
 
-The core agent is designed as a cyclic directed graph orchestrated with **LangGraph**. The workflow seamlessly routes between query rewriting, hybrid retrieval, generation, tool execution, and hallucination grading.
+The project is split into two phases: an **offline data ingestion pipeline** and a **live agentic graph** orchestrated with LangGraph.
 
 ### Architecture Diagram
 ```text
-[User Input + Chat History]
-             │
-             ▼
-     ┌───────────────┐
-     │ rewrite_query │ ──► Reformulates multi-turn query into a standalone prompt
-     └───────────────┘
-             │
-             ▼
-     ┌───────────────┐     1. BM25 (Keyword Search)
-     │   retrieve    │ ──► 2. ChromaDB (Dense Vector Search)
-     └───────────────┘     3. FlashRank (Cross-Encoder Reranking)
-             │
-             ▼
-     ┌───────────────┐
- ┌──►│   generate    │ ◄── LLM generates answer with inline citations [1], [2]
+[OFFLINE PIPELINE]
+ ┌────────────┐     ┌────────────┐     ┌────────────────────────────────────┐
+ │ crawler.py │ ──► │ ingest.py  │ ──► │  chroma_db/ (Dense Vector Store)   │
+ └────────────┘     └────────────┘     │  bm25_index.pkl (Keyword Search)   │
+                                       └────────────────────────────────────┘
+                                                         │
+[LIVE AGENT PIPELINE]                                    │
+ [User Input + Chat History]                             │
+             │                                           ▼
+             ▼                                   ┌───────────────┐
+     ┌───────────────┐                           │   retrieve    │ 
+     │ rewrite_query │ ──► Reformulates ─────────┤ (Hybrid Search│
+     └───────────────┘     standalone prompt     │ + FlashRank)  │
+             │                                   └───────────────┘
+             ▼                                           │
+     ┌───────────────┐                                   │
+ ┌──►│   generate    │ ◄── LLM generates answer w/ citations [1]
  │   └───────────────┘
  │           │
  │     [Tool Calls?]
@@ -62,7 +62,7 @@ The core agent is designed as a cyclic directed graph orchestrated with **LangGr
 * **FlashRank Reranking:** Rather than flooding context with raw top-$k$ results, retrieved documents pass through an ultra-lightweight, local cross-encoder, compressing candidates down to the top 7–12 most relevant chunks.
 
 
-2. **Deterministic Financial Math (`numexpr` Tool):** Large Language Models frequently make arithmetic errors on multi-step financial calculations (e.g., option payoffs). When arithmetic is detected, the agent defers to a sandboxed `calculate` tool to compute deterministic numerical answers.
+2. **Deterministic Financial Math (`numexpr` Tool):** Large Language Models frequently make arithmetic errors on multi-step financial calculations. When arithmetic is detected, the agent defers to a sandboxed `calculate` tool to compute deterministic numerical answers.
 3. **Self-Reflective Grounding Grader:** Every response passes through an automated structured output check. If outside knowledge or ungrounded claims are detected, the response is intercepted and replaced with a strict fallback refusal.
 4. **Zero-Leak "Bring Your Own Key" (BYOK):** To avoid committing secrets or mandating `.env` files on shared deployments (like Streamlit Cloud), the pipeline uses lazy initialization. Vector stores and LLM clients are built on-demand using the live API key supplied directly through the Streamlit sidebar.
 
@@ -72,8 +72,8 @@ The core agent is designed as a cyclic directed graph orchestrated with **LangGr
 
 The system uses **Google Gemini 2.5 Flash**, which offers exceptionally low API pricing:
 
-* **Input Tokens:** $0.075 per 1 Million tokens
-* **Output Tokens:** $0.30 per 1 Million tokens
+* **Input Tokens:** ~$0.30 per 1 Million tokens
+* **Output Tokens:** ~$2.50 per 1 Million tokens [1]
 
 ### Example Query Breakdown
 
@@ -84,17 +84,17 @@ The system uses **Google Gemini 2.5 Flash**, which offers exceptionally low API 
 
 **Cost per average query:**
 
-* Input Cost: `1,800 * ($0.075 / 1,000,000) = $0.000135`
-* Output Cost: `250 * ($0.30 / 1,000,000) = $0.000075`
-* **Total Estimated Cost: ~$0.00021 USD per query**
+* Input Cost: `1,800 * ($0.30 / 1,000,000) = $0.00054`
+* Output Cost: `250 * ($2.50 / 1,000,000) = $0.000625`
+* **Total Estimated Cost: ~$0.0011 USD per query**
 
 ### Scaling Projections
 
 | Traffic Volume | Estimated Cost (USD) | Notes |
 | --- | --- | --- |
-| **100 Queries** | **~$0.02** | Negligible cost for personal daily use or testing. |
-| **1,000 Queries** | **~$0.21** | Great for small classroom environments or portfolio showcases. |
-| **10,000 Queries** | **~$2.10** | Production-scale testing; highly cost-effective compared to GPT-4o. |
+| **100 Queries** | **~$0.11** | Negligible cost for personal daily use or testing. |
+| **1,000 Queries** | **~$1.10** | Great for small classroom environments or portfolio showcases. |
+| **10,000 Queries** | **~$11.00** | Production-scale testing; highly cost-effective compared to GPT-4o. |
 
 *(Note: The Google AI Studio Free Tier provides up to 15 Requests Per Minute at $0.00 cost, making personal usage completely free).*
 
@@ -103,14 +103,16 @@ The system uses **Google Gemini 2.5 Flash**, which offers exceptionally low API 
 ## 📂 Project Structure
 
 ```text
+├── crawler.py             # Scrapes raw content/URLs from the Zerodha Varsity website
+├── ingest.py              # Chunks data and builds the local Chroma & BM25 indexes
 ├── agent.py               # Compiled LangGraph pipeline & node implementations
 ├── streamlit_app.py       # Streamlit web application & session telemetry
 ├── evaluate.py            # RAGAS evaluation benchmark suite
-├── varsity_docs.json      # Structured documents scraped from Zerodha Varsity
+├── varsity_docs.json      # Structured documents output by crawler.py
 ├── requirements.txt       # Production dependencies
 ├── .gitignore             # Excludes binary stores, envs, and cache artifacts
-├── chroma_db/             # Local vector database directory (generated dynamically)
-└── bm25_index.pkl         # Pickled BM25 index cache (generated dynamically)
+├── chroma_db/             # Local vector database directory (generated by ingest.py)
+└── bm25_index.pkl         # Pickled BM25 index cache (generated by ingest.py)
 
 ```
 
@@ -165,7 +167,28 @@ GEMINI_API_KEY=your_gemini_api_key_here
 
 ---
 
-## 🖥️ How to Run the Solution
+## 🏗️ Data Ingestion Pipeline (Run Once)
+
+Before chatting with the agent, you must build the vector database and search indexes.
+
+1. **(Optional) Crawl the Website:** If `varsity_docs.json` is not present, run the crawler to fetch fresh documentation.
+```bash
+python crawler.py
+
+```
+
+
+2. **Build the Search Indexes:** Run the ingestion script. This will chunk the JSON data, generate dense embeddings, and save `chroma_db` and `bm25_index.pkl` to your local folder (takes ~30-60 seconds depending on API limits).
+```bash
+python ingest.py
+
+```
+
+
+
+---
+
+## 🖥️ How to Run the Live Agent
 
 ### Option A: Interactive Web UI (Streamlit)
 
@@ -215,9 +238,9 @@ Results will print to stdout and export a timestamped benchmark summary to CSV.
 
 ## ⚠ Known Limitations
 
-1. **Static Knowledge Base:** The vector store and BM25 index reflect static snapshots of Zerodha Varsity content. Real-time market changes, live stock quotes, or newly revised tax slabs are not reflected.
-2. **Free-Tier Rate Limits:** The Google AI Studio free tier enforces a 15 RPM (Requests Per Minute) cap. The `execute_with_retry` decorator handles `429 RESOURCE_EXHAUSTED` errors with exponential backoff, but concurrent high-throughput requests may experience delays.
-3. **Pickle Index Portability:** `bm25_index.pkl` is serialized using Python's standard `pickle`. If switching major Python versions (e.g., building the cache on Python 3.12 and loading it on Python 3.10), simply delete `bm25_index.pkl` and the application will rebuild it automatically on the next run.
+1. **Static Knowledge Base:** The vector store and BM25 index reflect static snapshots of Zerodha Varsity content. Real-time market changes, live stock quotes, or newly revised tax slabs are not reflected unless you re-run `crawler.py` and `ingest.py`.
+2. **Free-Tier Rate Limits:** The Google AI Studio free tier enforces a 15 RPM (Requests Per Minute) cap. The codebase handles `429 RESOURCE_EXHAUSTED` errors with exponential backoff, but concurrent high-throughput requests or large ingestion workloads may experience delays.
+3. **Pickle Index Portability:** `bm25_index.pkl` is serialized using Python's standard `pickle`. If switching major Python versions (e.g., building the cache on Python 3.12 and loading it on Python 3.10), simply delete `bm25_index.pkl` and re-run `python ingest.py`.
 
 ```
 
