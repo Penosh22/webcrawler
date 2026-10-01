@@ -2,7 +2,7 @@
 
 An agentic, multi-turn Retrieval-Augmented Generation (RAG) assistant built to provide grounded, citation-backed answers to stock trading, investing, derivatives, and financial regulatory questions using educational content from [Zerodha Varsity](https://zerodha.com/varsity/).
 
-Powered by **LangGraph**, **Google Gemini 2.5 Flash**, **ChromaDB**, **BM25**, and **FlashRank**, the assistant combines hybrid retrieval, deterministic math evaluation, self-reflective grounding validation, and real-time cost telemetry.
+Powered by **Crawl4AI**,**LangGraph**, **Google Gemini 2.5 Flash**, **ChromaDB**, **BM25**, and **FlashRank**, the assistant combines hybrid retrieval, deterministic math evaluation, self-reflective grounding validation, and real-time cost telemetry.
 
 ---
 
