@@ -20,6 +20,8 @@ if "total_output_tokens" not in st.session_state:
     st.session_state.total_output_tokens = 0
 if "total_cost" not in st.session_state:
     st.session_state.total_cost = 0.0
+if "sample_prompt" not in st.session_state:
+    st.session_state.sample_prompt = None
 
 # --- Sidebar Metrics & Controls ---
 with st.sidebar:
@@ -37,6 +39,20 @@ with st.sidebar:
 
     # 1. Create an empty container placeholder for the metrics
     metrics_placeholder = st.empty()
+    
+    st.markdown("---")
+    st.subheader("💡 Sample Questions")
+    
+    sample_questions = [
+        "What is an iron condor and its max loss?",
+        "If I buy 250 shares at 120 and sell at 145, what is my profit?",
+        "Explain what a PE ratio is.",
+        "What is the current stock price of Reliance?" # Tests the grounding refusal
+    ]
+    
+    for q in sample_questions:
+        if st.button(q, use_container_width=True):
+            st.session_state.sample_prompt = q
 
 # 2. Define a function to draw/redraw metrics inside that placeholder
 def render_metrics():
