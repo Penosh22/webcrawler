@@ -50,6 +50,7 @@ The project is split into two phases: an **offline data ingestion pipeline** and
                    └───────────────┘
 
 ```
+<img width="1536" height="1024" alt="image" src="https://github.com/user-attachments/assets/9ed4edc6-b037-4f86-83b5-c98c23be31da" />
 
 ---
 
