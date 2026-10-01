@@ -39,7 +39,7 @@ with st.sidebar:
 
     # 1. Create an empty container placeholder for the metrics
     metrics_placeholder = st.empty()
-    
+
     st.markdown("---")
     st.subheader("💡 Sample Questions")
     
@@ -109,7 +109,9 @@ for msg in st.session_state.messages:
             st.caption(f"⏱️ Tokens: {meta['in_tok']} in / {meta['out_tok']} out | Est. Query Cost: ${meta['cost']:.6f}")
 
 # Handle New User Prompt
-if prompt := st.chat_input("E.g., If I buy 250 shares at 120 and sell at 145, what is my profit?"):
+prompt = st.chat_input("E.g., If I buy 250 shares at 120 and sell at 145, what is my profit?") or st.session_state.sample_prompt
+if prompt:
+    st.session_state.sample_prompt = None
     
     # Gatekeeper: Check if an API key exists either from .env or UI
     if not getattr(agent, "api_key", None):
